@@ -79,8 +79,8 @@ void find_pacman(Map *map, Pacman *pacman)
         {
             if (map->matrix[i][j] == PACMAN)
             {
-                pacman->x = i;
-                pacman->y = j;
+                pacman->actual_x = i;
+                pacman->actual_y = j;
 
                 return;
             }
@@ -117,6 +117,23 @@ void print_map(Map map)
 }
 
 /**
+ * Check if the pacman collide with a wall or ghosts.
+ */
+int collide(Map *map, Pacman *pacman)
+{
+    return (map->matrix[pacman->actual_x][pacman->actual_y] != EMPTY_SPACE);
+}
+
+/**
+ * Update the pacman position.
+ */
+void update_pacman(Map *map, Pacman *pacman)
+{
+    map->matrix[pacman->previous_x][pacman->previous_y] = EMPTY_SPACE;
+    map->matrix[pacman->actual_x][pacman->actual_y] = PACMAN;
+}
+
+/**
  * Move the pacman through the map.
  */
 void move(Map *map, Pacman *pacman)
@@ -124,25 +141,32 @@ void move(Map *map, Pacman *pacman)
     char move;
     scanf(" %c", &move);
 
-    map->matrix[pacman->x][pacman->y] = EMPTY_SPACE;
+    pacman->previous_x = pacman->actual_x;
+    pacman->previous_y = pacman->actual_y;
 
     switch (move)
     {
     case UP:
-        (pacman->x)--;
+        (pacman->actual_x)--;
         break;
     case LEFT:
-        (pacman->y)--;
+        (pacman->actual_y)--;
         break;
     case DOWN:
-        (pacman->x)++;
+        (pacman->actual_x)++;
         break;
     case RIGHT:
-        (pacman->y)++;
+        (pacman->actual_y)++;
         break;
     default:
         break;
     }
 
-    map->matrix[pacman->x][pacman->y] = PACMAN;
+    if (collide(map, pacman))
+    {
+        pacman->actual_x = pacman->previous_x;
+        pacman->actual_y = pacman->previous_y;
+    }
+
+    update_pacman(map, pacman);
 }

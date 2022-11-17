@@ -20,8 +20,10 @@ typedef struct map
 
 typedef struct pacman
 {
-    int x;
-    int y;
+    int previous_x;
+    int previous_y;
+    int actual_x;
+    int actual_y;
 } Pacman;
 
 /**
@@ -68,6 +70,16 @@ int endgame();
  * Print the game map in the Terminal.
  */
 void print_map(Map map);
+
+/**
+ * Check if the pacman collide with a wall or ghosts.
+ */
+int collide(Map *map, Pacman *pacman);
+
+/**
+ * Update the pacman position.
+ */
+void update_pacman(Map *map, Pacman *pacman);
 
 /**
  * Move the pacman through the map.
