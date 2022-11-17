@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <locale.h>
 #include "headers/map.h"
 
@@ -7,12 +8,18 @@ int main()
     setlocale(LC_ALL, "Portuguese_Brazil");
 
     Map map;
+    Pacman pacman;
 
-    load_map(&map);
+    start_game(&map, &pacman);
     
-    print_map(map);
+    while (!endgame())
+    {
+        system("cls");
+        print_map(map);
+        move(&map, &pacman);
+    }
 
     free_memory(&map);
-
+    
     return 0;
 }
