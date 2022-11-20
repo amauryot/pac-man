@@ -10,6 +10,7 @@
 
 #define EMPTY_SPACE '.'
 #define PACMAN 'P'
+#define GHOST 'G'
 
 typedef struct map
 {
@@ -18,13 +19,14 @@ typedef struct map
     int columns;
 } Map;
 
-typedef struct pacman
+typedef struct character
 {
+    char symbol;
     int previous_x;
     int previous_y;
     int actual_x;
     int actual_y;
-} Pacman;
+} Character;
 
 /**
  * Check if the file is in the path resources/map.txt.
@@ -52,14 +54,14 @@ void copy_file(FILE *file, Map *map);
 void load_map(Map *map);
 
 /**
- * Find the pacman in the map.
+ * Find pacman in the map.
  */
-void find_pacman(Map *map, Pacman *pacman);
+void find_pacman(Map *map, Character *pacman);
 
 /**
  * Initialize the game.
  */
-void start_game(Map *map, Pacman *pacman);
+void start_game(Map *map, Character *pacman);
 
 /**
  * Returns if the game is over.
@@ -72,18 +74,38 @@ int endgame();
 void print_map(Map map);
 
 /**
- * Check if the pacman collide with a wall or ghosts.
+ * Returns the char (w, a, s, d) that represents the movement (up, left, down, right).
  */
-int collide(Map *map, Pacman *pacman);
+char get_move();
 
 /**
- * Update the pacman position.
+ * Check if the character collide with a wall or others characters.
  */
-void update_pacman(Map *map, Pacman *pacman);
+int collide(Map map, Character *character);
+
+/**
+ * Update the character position.
+ */
+void update_position(Map map, Character *character);
 
 /**
  * Move the pacman through the map.
  */
-void move(Map *map, Pacman *pac);
+void move_pacman(Map map, Character *pacman);
+
+/**
+ * Replicate the map.
+ */
+void copy_map(Map *replica, Map original);
+
+/**
+ * Generate a random move for the ghosts.
+ */
+void random_move(Character *ghost);
+
+/**
+ * Move the ghosts.
+ */
+void move_ghosts(Map map, Character *ghost);
 
 #endif

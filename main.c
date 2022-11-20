@@ -8,18 +8,23 @@ int main()
     setlocale(LC_ALL, "Portuguese_Brazil");
 
     Map map;
-    Pacman pacman;
+    Character pacman;
+    Character ghost;
+
+    pacman.symbol = PACMAN;
+    ghost.symbol = GHOST;
 
     start_game(&map, &pacman);
-    
+
     while (!endgame())
     {
-        system("cls");
+        //system("cls");
         print_map(map);
-        move(&map, &pacman);
+        move_pacman(map, &pacman);
+        move_ghosts(map, &ghost);
     }
 
     free_memory(&map);
-    
+
     return 0;
 }
