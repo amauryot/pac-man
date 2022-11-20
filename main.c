@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <locale.h>
 #include "headers/map.h"
+#include "headers/interface.h"
 
 int main()
 {
@@ -18,7 +19,7 @@ int main()
 
     while (!endgame())
     {
-        //system("cls");
+        system("cls");
         print_map(map);
         move_pacman(map, &pacman);
         move_ghosts(map, &ghost);

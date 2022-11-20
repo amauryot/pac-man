@@ -11,6 +11,8 @@
 #define EMPTY_SPACE '.'
 #define PACMAN 'P'
 #define GHOST 'G'
+#define HORIZONTAL_WALL '-'
+#define VERTICAL_WALL '|'
 
 typedef struct map
 {
@@ -67,11 +69,6 @@ void start_game(Map *map, Character *pacman);
  * Returns if the game is over.
  */
 int endgame();
-
-/**
- * Print the game map in the Terminal.
- */
-void print_map(Map map);
 
 /**
  * Returns the char (w, a, s, d) that represents the movement (up, left, down, right).

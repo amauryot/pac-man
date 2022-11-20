@@ -59,13 +59,10 @@ void copy_file(FILE *file, Map *map)
 void load_map(Map *map)
 {
     FILE *file = fopen(FILE_ADDRESS, "r");
-
     check_file(file);
 
     fscanf(file, "%d %d", &(map->rows), &(map->columns));
-
     allocate_memory(map);
-
     copy_file(file, map);
 
     fclose(file);
@@ -109,17 +106,6 @@ int endgame()
 }
 
 /**
- * Print the game map in the Terminal.
- */
-void print_map(Map map)
-{
-    for (int i = 0; i < map.rows; i++)
-    {
-        printf("%s\n", map.matrix[i]);
-    }
-}
-
-/**
  * Returns the char (w, a, s, d) that represents the movement (up, left, down, right).
  */
 char get_move()
@@ -160,15 +146,19 @@ void move_pacman(Map map, Character *pacman)
     case UP:
         (pacman->actual_x)--;
         break;
+
     case LEFT:
         (pacman->actual_y)--;
         break;
+
     case DOWN:
         (pacman->actual_x)++;
         break;
+
     case RIGHT:
         (pacman->actual_y)++;
         break;
+        
     default:
         break;
     }
@@ -217,7 +207,6 @@ void random_move(Character *ghost)
 void move_ghosts(Map map, Character *ghost)
 {
     Map replica;
-
     copy_map(&replica, map);
 
     srand(time(0));
@@ -228,13 +217,8 @@ void move_ghosts(Map map, Character *ghost)
         {
             if (replica.matrix[i][j] == ghost->symbol)
             {
-                ghost->actual_x = i;
-                ghost->actual_y = j;
-
-                ghost->previous_x = ghost->actual_x;
-                ghost->previous_y = ghost->actual_y;
-
-                //random_move(ghost);
+                ghost->previous_x = i;
+                ghost->previous_y = j;
 
                 do
                 {
@@ -243,7 +227,7 @@ void move_ghosts(Map map, Character *ghost)
 
                     random_move(ghost);
 
-                } while (collide(replica, ghost));
+                } while (collide(map, ghost));
 
                 update_position(map, ghost);
             }
